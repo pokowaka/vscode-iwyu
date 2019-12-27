@@ -1,0 +1,91 @@
+{
+	"name": "pokowaka-iwyu",
+	"displayName": "Include What You Use",
+	"publisher": "pokowaka",
+	"description": "A tool for use with clang to analyze #includes in C and C++ source files",
+	"version": "1.0.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/pokowaka/vscode-iwyu"
+	  },
+	"engines": {
+		"vscode": "^1.41.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.iwyu"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.iwyu",
+				"title": "Include What You Use"
+			}
+		],
+		"configuration": {
+			"title": "Include What You Use",
+			"properties": {
+				"iwyu.exe": {
+					"type": "string",
+					"default": "include-what-you-use",
+					"description": "Path to the include what you use executable."
+				},
+				"iwyu.compile_commands": {
+					"type": "string",
+					"default": "${workspaceFolder}/build/compile_commands.json",
+					"description": "Path to compile commands."
+				},
+				"iwyu.mapping_files": {
+					"type": [
+						"array"
+					],
+					"default": [],
+					"description": "List of mapping files to use."
+				},
+				"iwyu.transitive_includes_only": {
+					"type": "boolean",
+					"default": true,
+					"description": "Do not suggest that a file add foo.h unless foo.h is already visible in the file's transitive includes."
+				},
+				"iwyu.max_line_length": {
+					"type": "integer",
+					"default": 80,
+					"description": "Maximum line length for includes.Note that this only affects comments and alignment thereof, the maximum line length can still be exceeded with long file names"
+				},
+				"iwyu.comments": {
+					"type": "boolean",
+					"default": true,
+					"description": "Add 'why' comments."
+				},
+				"iwy.additional_params": {
+					"type": "string",
+					"default": "",
+					"description": "Additional parameters you wish to pass to iwyu."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile && npm run copy:py",
+		"copy:py": "cp -r src/fix_includes.py out/",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js",
+		"postinstall": "node ./node_modules/vscode/bin/install"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.41.0",
+		"glob": "^7.1.5",
+		"mocha": "^6.2.2",
+		"typescript": "^3.6.4",
+		"tslint": "^5.20.0",
+		"vscode-test": "^1.2.2"
+	}
+}
