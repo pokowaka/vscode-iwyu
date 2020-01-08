@@ -3,13 +3,13 @@
 	"displayName": "Include What You Use",
 	"publisher": "pokowaka",
 	"description": "A tool for use with clang to analyze #includes in C and C++ source files",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/pokowaka/vscode-iwyu"
-	  },
+	},
 	"engines": {
-		"vscode": "^1.41.0"
+		"vscode": "^1.39.0"
 	},
 	"categories": [
 		"Other"
@@ -38,12 +38,10 @@
 					"default": "${workspaceFolder}/build/compile_commands.json",
 					"description": "Path to compile commands."
 				},
-				"iwyu.mapping_files": {
-					"type": [
-						"array"
-					],
-					"default": [],
-					"description": "List of mapping files to use."
+				"iwyu.mapping_file": {
+					"type": "string",
+					"default": "",
+					"description": "Mapping file to use if any."
 				},
 				"iwyu.transitive_includes_only": {
 					"type": "boolean",
@@ -55,10 +53,22 @@
 					"default": 80,
 					"description": "Maximum line length for includes.Note that this only affects comments and alignment thereof, the maximum line length can still be exceeded with long file names"
 				},
-				"iwyu.comments": {
+				"iwyu.no_fwd_decls": {
 					"type": "boolean",
-					"default": true,
-					"description": "Add 'why' comments."
+					"default": false,
+					"description": "do not use forward declarations."
+				},
+				"iwyu.no_default_mappings": {
+					"type": "boolean",
+					"default": false,
+					"description": "do not add iwyu's default mappings."
+				},
+				"iwyu.keep": {
+					"type": [
+						"array"
+					],
+					"default": [],
+					"description": "A glob that tells iwyu to always keep these includes. Can be provided multiple times."
 				},
 				"iwy.additional_params": {
 					"type": "string",
@@ -81,7 +91,7 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.7",
 		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.41.0",
+		"@types/vscode": "^1.39.0",
 		"glob": "^7.1.5",
 		"mocha": "^6.2.2",
 		"typescript": "^3.6.4",
