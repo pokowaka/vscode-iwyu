@@ -63,10 +63,29 @@ function runIwyu(
   if (config.get<string>("mapping_file", "").trim() !== "") {
     mapping = "-Xiwyu --mapping_file=" + config.get<string>("mapping_file", "");
   }
-
   let additional: string = config.get<string>("additional_params", "");
+
   let pyscript = resolve(__dirname, "fix_includes.py");
-  var cmd: string = `${exe} -Xiwyu --max_line_length=${len} ${trans} ${mapping} ${keep} ${additional} ${no_fwd_decls} ${no_default_mappings} ${file} 2>&1 | ${pyscript}`;
+  // Params for the python script.
+  let comments: string = config.get<boolean>("comments", true)
+    ? "--comments"
+    : "--nocomments";
+  let safe: string = config.get<boolean>("safe", true)
+    ? "--safe_headers"
+    : "--nosafe_headers";
+  let reorder: string = config.get<boolean>("reorder", true)
+    ? "--reorder"
+    : "--noreorder";
+  var ignore_re: string = "";
+  if (config.get<string>("ignore_re", "").trim() !== "") {
+    ignore_re = "--ignore_re=" + config.get<string>("ignore_re", "");
+  }
+  var only_re: string = "";
+  if (config.get<string>("only_re", "").trim() !== "") {
+    only_re = "--only_re=" + config.get<string>("only_re", "");
+  }
+
+  var cmd: string = `${exe} -Xiwyu --max_line_length=${len} ${trans} ${mapping} ${keep} ${additional} ${no_fwd_decls} ${no_default_mappings} ${file} 2>&1 | ${pyscript} ${comments} ${safe} ${reorder} ${ignore_re} ${only_re}`;
 
   console.log(
     "Running: pushd " + compile_command.directory + ";" + cmd + "; popd"

@@ -34,12 +34,36 @@ This extension contributes the following settings:
 - `iwyu.no_fwd_decls`: Do not use forward declarations.
 - `iwyu.keep`: A glob that tells iwyu to always keep these includes. Can be provided multiple times.
 - `iwyu.additional_params`: Additional parameters you wish to pass to iwyu. Must be prefixed with a `-Xiwyu` flag
+- `iwyu.comments`: Put comments after the #include lines."
+- `iwyu.safe`: Do not remove unused #includes/fwd-declares from header files; just add new ones.
+- `iwyu.reorder`: Re-order lines relative to other similar lines (e.g. headers relative to other headers).
+- `iwyu.ignore_re`: Skip editing any file whose name matches this regular expression.
+- `iwyu.only_re`: Skip editing any file whose name does *NOT* match this regular expression.
+
+
+### How to Correct IWYU Mistakes
+
+Taken from [IWYU](https://github.com/include-what-you-use/include-what-you-use/blob/master/README.md):
+
+* If the extension has removed an `#include` you actually need, add it back in with the comment '`// IWYU pragma: keep`' at the end of the `#include` line.  Note that the comment is case-sensitive.
+* If the extension has added an `#include` you don't need, just take it out.
+* If the extension has wrongly added or removed a forward-declare, just fix it up manually.
+* If the extension is inserting private headers (such as `<bits/stl_vector.h>`) v.s. public ones (`<vector>`), you can consider creating a [mapping file](https://github.com/include-what-you-use/include-what-you-use/blob/master/docs/IWYUMappings.md) or you can fix this by inserting a specially crafted comment near top of the private file (assuming you can write to it): '`// IWYU pragma: private, include "the/public/file.h"`'.
+.
+
 
 ## Known Issues
 
 - You will need a python interpreter on the path.
 
+
+
 ## Release Notes
+
+### 1.0.3
+
+- Add support for passing parameters to the python post processor, this enables
+  aggressive rewrites with removal of unused #includes. *Note:* This is not perfect.
 
 ### 1.0.2
 

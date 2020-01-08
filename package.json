@@ -3,7 +3,7 @@
 	"displayName": "Include What You Use",
 	"publisher": "pokowaka",
 	"description": "A tool for use with clang to analyze #includes in C and C++ source files",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/pokowaka/vscode-iwyu"
@@ -70,10 +70,35 @@
 					"default": [],
 					"description": "A glob that tells iwyu to always keep these includes. Can be provided multiple times."
 				},
-				"iwy.additional_params": {
+				"iwyu.additional_params": {
 					"type": "string",
 					"default": "",
 					"description": "Additional parameters you wish to pass to iwyu."
+				},
+				"iwyu.comments": {
+					"type": "boolean",
+					"default": true,
+					"description": "Put comments after the #include lines."
+				},
+				"iwyu.safe": {
+					"type": "boolean",
+					"default": true,
+					"description": "Do not remove unused #includes/fwd-declares from header files; just add new ones."
+				},
+				"iwyu.reorder": {
+					"type": "boolean",
+					"default": true,
+					"description": "Re-order lines relative to other similar lines (e.g. headers relative to other headers)."
+				},
+				"iwyu.ignore_re": {
+					"type": "string",
+					"default": "",
+					"description": "Skip editing any file whose name matches this regular expression."
+				},
+				"iwyu.only_re": {
+					"type": "string",
+					"default": "",
+					"description": "Skip editing any file whose name does NOT match this regular expression."
 				}
 			}
 		}
